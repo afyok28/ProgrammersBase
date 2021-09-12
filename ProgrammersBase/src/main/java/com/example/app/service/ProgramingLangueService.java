@@ -25,7 +25,9 @@ public class ProgramingLangueService {
 	public List<ProgramingLangue> findAll() {
 		return programingLangueRepository.findAll();
 	}
-
+	public List<ProgramingLangue> findAll2(Long id) {
+		return programingLangueRepository.allProgramingLangueId(id);
+	}
 	public boolean delete(Long id) {
 		try {
 			programingLangueRepository.delete(new ProgramingLangue(id));
@@ -43,7 +45,6 @@ public class ProgramingLangueService {
 				return false;
 		} else
 			throw new IllegalArgumentException("id min value 1");
-
 	}
 
 	public boolean insert(ProgramingLangue programingLangue) {

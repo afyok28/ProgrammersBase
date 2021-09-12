@@ -11,7 +11,7 @@ import com.example.app.model.ProgramingLangue;
 @Repository
 public interface ProgramingLangueRepository extends JpaRepository<ProgramingLangue, Long>{
  
-	 @Query(value = "SELECT pl FROM ProgramingLangue pl WHERE pl.id=?1 ",nativeQuery = true)
+	 @Query(value = "SELECT pl FROM ProgramingLangue pl  WHERE pl.id=?1 ",nativeQuery = false)
 	 public List<ProgramingLangue> allProgramingLangueId(Long id);
 
 }

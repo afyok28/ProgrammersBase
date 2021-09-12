@@ -8,7 +8,7 @@ import org.hibernate.annotations.CascadeType;
 @Table(name = "PL_CATEGORY")
 public class PrograminLangueCategory {
 
-	@SequenceGenerator(name = "generator", sequenceName = "ID_SEQ_PL_CATEGORY",allocationSize = 1,initialValue = 1)
+	@SequenceGenerator(name = "generator", sequenceName = "ID_SEQ_PL_CATEGORY", allocationSize = 1, initialValue = 1)
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator")
 	@Column(name = "ID")
@@ -17,9 +17,7 @@ public class PrograminLangueCategory {
 	@Column(name = "TOPIC", length = 35)
 	private String topic;
 
-	@Cascade({ 
-		CascadeType.DELETE
-	})
+	@Cascade({ CascadeType.DELETE })
 	@ManyToOne(fetch = FetchType.LAZY)
 	@PrimaryKeyJoinColumn(name = "PL_ID", foreignKey = @ForeignKey(name = "FK_PLCATEGORY_PL", value = ConstraintMode.CONSTRAINT))
 	private ProgramingLangue programingLangue;
@@ -58,7 +56,26 @@ public class PrograminLangueCategory {
 		this.topic = topic;
 		this.programingLangue = programingLangue;
 	}
+	public PrograminLangueCategory(Long id, String topic) {
+		super();
+		this.id = id;
+		this.topic = topic;
+	}
 
+	public PrograminLangueCategory(String topic, ProgramingLangue programingLangue) {
+		super();
+		this.topic = topic;
+		this.programingLangue = programingLangue;
+	}
+
+	public PrograminLangueCategory(String topic) {
+		super();
+		this.topic = topic;
+	}
+	public PrograminLangueCategory(Long id) {
+		super();
+		this.id = id;
+	}
 	@Override
 	public String toString() {
 		return "PrograminLangueCategory [id=" + id + ", topic=" + topic + ", programingLangue=" + programingLangue
