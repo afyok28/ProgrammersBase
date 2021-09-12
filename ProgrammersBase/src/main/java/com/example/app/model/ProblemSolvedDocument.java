@@ -21,7 +21,7 @@ import org.hibernate.annotations.CascadeType;
 @Table(name = "PROBLEM_SOLVED_DOCUMENT")
 public class ProblemSolvedDocument {
 
-	@SequenceGenerator(name = "generator", sequenceName = "ID_SEQ_PL_CATEGORY")
+	@SequenceGenerator(name = "generator", sequenceName = "ID_SEQ_PL_CATEGORY",allocationSize = 1,initialValue = 1)
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator")
 	@Column(name = "ID")

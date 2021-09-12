@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Table(name = "PROGRAMING_LANGUE")
 public class ProgramingLangue {
 
-	@SequenceGenerator(name = "generator",sequenceName = "ID_SEQ_PROGRAMING_LANGUE")
+	@SequenceGenerator(name = "generator",sequenceName = "ID_SEQ_PROGRAMING_LANGUE",allocationSize = 1,initialValue = 1)
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="generator" )
 	@Column(name = "ID")
