@@ -29,38 +29,21 @@ public class AppController {
 	
 	@GetMapping(value = { "/index", "/", "/home" })
 	public String viewHomePage() {
-		System.out.println("viewHomePage");
 
 		return "index";
 	}
 
 	@GetMapping(value = { "/ProgramingLangue" })
 	public String viewMenuProgramingLangue() {
-		System.out.println("viewMenuProgramingLangue");
-		System.out.println(1);
+		
 		programingLangueService.insert(new ProgramingLangue("Java"));
-		for (ProgramingLangue o : programingLangueService.findAll()) {
-			System.out.println(o);
-		}
-		System.out.println();
-		for (ProgramingLangue o : programingLangueService.findAll2(401L)) {
-			System.out.println(o);
-		}
+		
 		return "plPage";
 	}
 
 	@GetMapping(value = { "/ProgramingLangueCategory" })
 	public String viewMenuProgramingLangueCategory() {
-		System.out.println("viewMenuProgramingLangueCategory");
-		System.out.println(1);
-		//programingLangueCategoryService.insert(new PrograminLangueCategory("Spring2", new ProgramingLangue(551L)));
-		for (PrograminLangueCategory o : programingLangueCategoryService.findProgramingLangueCategoryByPlId(401L)) {
-			System.out.println(o);
-		}
-		System.out.println();
-		for (PrograminLangueCategory o : programingLangueCategoryService.findAll()) {
-			System.out.println(o);
-		}
+		
 		return "plCategoryPage";
 	}
 
