@@ -22,9 +22,9 @@ public class PlCategoryPageController {
 	@PostMapping(value = { "/ProgramingLangueCategory" })
 	@Async("asyncExecutor")
 	public String viewProgramingLangueCategoryPagePost(@RequestParam("selectedPlId") Long selectedPlId, ModelAndView modelAndView) {	
-		System.out.println("ProgramingLangueCategory post");
+		
 		List<PrograminLangueCategory> programinLangueCategories = programingLangueCategoryService.findProgramingLangueCategoryByPlId(1L);
-		System.out.println("***************::::" + programinLangueCategories.toString());
+		
 		modelAndView.addObject("programinLangueCategories", programinLangueCategories);
 		return "/ProgramingLangueCategory";
 	}
