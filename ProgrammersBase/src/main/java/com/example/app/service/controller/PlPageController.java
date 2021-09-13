@@ -25,10 +25,8 @@ public class PlPageController {
 	@GetMapping(value = { "/ProgramingLangue/" })
 	@Async("asyncExecutor")
 	public String select(Model model) {
-		
 		ModelAndView modelAndView = new ModelAndView("/select");
 		List<ProgramingLangue> programingLangues = programingLangueService.findAll();
-		System.out.println("***************::::" + programingLangues.toString());
 		modelAndView.addObject("programingLangues", programingLangues);
 		return "redirect:/ProgramingLangue";
 	}
@@ -37,7 +35,6 @@ public class PlPageController {
 	@Async("asyncExecutor")
 	public String delete(@PathVariable Long id) {		
 		boolean isDeleted =programingLangueService.delete(id);
-		System.out.println(isDeleted);
 		return "redirect:/ProgramingLangue";
 	}
 
@@ -45,8 +42,7 @@ public class PlPageController {
 	@Async("asyncExecutor")
 	public String insert(@ModelAttribute("book") ProgramingLangue programingLangue) {
 		programingLangue.setId(0L);
-		boolean isInsert =programingLangueService.insert(programingLangue);
-		System.out.println(isInsert);
+		boolean isInsert = programingLangueService.insert(programingLangue);
 		return "redirect:/ProgramingLangue";
 	}
 	
@@ -54,7 +50,6 @@ public class PlPageController {
 	@Async("asyncExecutor")
 	public String update(@ModelAttribute("book") ProgramingLangue programingLangue) {		
 		boolean isUpdatee =programingLangueService.update(programingLangue);
-		System.out.println(isUpdatee);
 		return "redirect:/ProgramingLangue";
 	}
 }
