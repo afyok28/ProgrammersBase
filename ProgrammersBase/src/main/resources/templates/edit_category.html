@@ -31,8 +31,7 @@ nav {
                 <h1 class="text-center"> Edit Programming Language </h1>
                 <div class="card-body">
                     <form
-                            th:action="@{/{categoryCode} (categoryCode=${programmingLanguage}
-                            + '/' + ${category.categoryCode})}"
+                            th:action="@{/{path} (path=${programmingLanguage} + '/' + ${categoryCode})}"
                             th:object="${category}"
                             method="POST"
                     >
@@ -41,7 +40,7 @@ nav {
                             <input
                                     type="text"
                                     name="categoryName"
-                                    th:field=*{categoryName}"
+                                    th:field="*{categoryName}"
                                     class="form-control"
                                     placeholder="Enter the Name of the Category"
                                     minlength="2"

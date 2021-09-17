@@ -48,6 +48,20 @@ public class CategoryController {
         return "redirect:/ProgrammingLanguage/{programmingLanguage}";
     }
 
+    @GetMapping("/ProgrammingLanguage/{programmingLanguage}/edit/{categoryCode}")
+    public String edit(@PathVariable("programmingLanguage") String programmingLanguage,
+                       @PathVariable("categoryCode") Long categoryCode,
+                       Model model) {
+
+        Category category = categoryService.findByCategoryCode(categoryCode);
+
+        model.addAttribute("category", category);
+        model.addAttribute("programmingLanguage", programmingLanguage);
+        model.addAttribute("categoryCode", categoryCode);
+
+        return "edit_category";
+    }
+
     @PostMapping("/{programmingLanguage}/{categoryCode}")
     public String update(@PathVariable("categoryCode") Long categoryCode,
                          @ModelAttribute("category") Category  category) {
