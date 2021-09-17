@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Programmer's Base</title>
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+</head>
+<style>
+  @import url(https://fonts.googleapis.com/css?family=Righteous);
+  h1, nav {
+    font-family: 'Righteous', serif;
+  }
+  nav {
+    background-color: #1D1F20;
+  }
+  .padded-top { padding-top: 10px; }
+</style>
+<body>
+  <nav class="navbar navbar-expand-md navbar-dark">
+    <a class="navbar-brand" th:href="@{/}">Programmer's Base</a>
+  </nav>
+  <br>
+  <br>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card padded-top">
+        <h1 class="text-center"> Add Programming Language </h1>
+        <div class="card-body">
+          <form th:action="@{/}" th:object="${programmingLanguage}" method="POST">
+            <div class="form-group">
+              <label> Programming Language </label>
+              <input
+                      type="text"
+                      name="name"
+                      th:field="*{name}"
+                      class="form-control"
+                      placeholder="Enter the Name of the Language"
+                      minlength="1"
+                      maxlength="35"
+                      required
+              />
+            </div>
+            <div class="box-footer">
+              <button type="submit" class="btn btn-primary">
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
