@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Programmer's Base</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+</head>
+<style>
+@import url(https://fonts.googleapis.com/css?family=Righteous);
+nav, h1, row { font-family: 'Righteous', serif; }
+nav { background-color: #1D1F20; }
+h1 {
+  display: inline-block;
+  color: white;
+  font-size: calc(1.325rem + 2.3vw);
+  text-shadow: .03em .03em 0 hsla(230,40%,50%,1);
+}
+.text-black { color: #000; }
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+.large-box {
+  min-height: 200px !important;
+}
+.gradient-border {
+  --borderWidth: 3px;
+  background: #1D1F20;
+  position: relative;
+  border-radius: var(--borderWidth);
+}
+.gradient-border:after {
+  content: '';
+  position: absolute;
+  top: calc(-1 * var(--borderWidth));
+  left: calc(-1 * var(--borderWidth));
+  height: calc(100% + var(--borderWidth) * 2);
+  width: calc(100% + var(--borderWidth) * 2);
+  background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+  border-radius: calc(2 * var(--borderWidth));
+  z-index: -1;
+  animation: animatedgradient 3s ease alternate infinite;
+  background-size: 300% 300%;
+}
+@keyframes animatedgradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.box-shadow {
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+.box-shadow:hover {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+.box-shadow::after {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+}
+.box-shadow:hover::after {
+  opacity: 1;
+}
+.m-remove {
+  margin: 0;
+}
+.sp-remove {
+  padding-right:0;
+  padding-left: 0;
+}
+.pad-left {
+  padding-left: calc(30px - 1.5vw);
+ }
+</style>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark">
+        <a class="navbar-brand" th:href="@{/}">Programmer's Base</a>
+    </nav>
+    <div class="container pad-left">
+        <h1 th:if="${programmingLanguage != 'C%23'}"
+            class="card-title gradient-border box bg-light"
+            style="color:#000; margin-top:20px;"
+            th:text="${programmingLanguage} + ' Categories'"
+        />
+        <h1 th:if="${programmingLanguage == 'C%23'}"
+            class="card-title gradient-border box bg-light"
+            style="color:#000; margin-top:20px;"
+            th:text = "${C# Categories}"
+        />
+        <div class="col-lg-3" style="padding-left:0; margin-top:20px;">
+            <a th:href="@{/ProgrammingLanguage/{new}(new=${programmingLanguage}+'/new')}"
+               class="btn btn-sm mb-3 btn-primary">
+                Add New Category
+            </a>
+        </div>
+        <div class="row justify-content-between">
+            <div th:each="category : ${categories}" class="col-6">
+                <div class="card border-dark mb-3 gradient-border box box-shadow">
+                    <a th:href="@{/ProgrammingLanguage/{resource}(resource=${programmingLanguage}
+                            + '/' + ${category.categoryName} + '/' + ${category.categoryCode})}">
+                        <div class="card-body card-mod box large-box">
+                            <h1 class="card-title" th:text="${category.categoryName}"/>
+                        </div>
+                    </a>
+                    <div>
+                        <a th:href="@{/ProgrammingLanguage/{edit}(edit=${programmingLanguage}
+                                +'/edit/'+${category.categoryCode})}"
+                                class="card-link"> Edit
+                        </a>
+                        <a th:href="@{/ProgrammingLanguage/{delete}(delete=${programmingLanguage}
+                                +'/'+${category.categoryCode})}"  class="card-link text-danger"> Delete
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Pagination -->
+        <div th:if="${totalPages > 1}" class="container sp-remove">
+            <div class="d-inline-flex justify-content-between">
+                <div class="p-1">
+                    Total: [[${totalItems}]]
+                </div>
+                <div class="p-1">
+                    <a th:if="${currentPage > 1}" th:href="@{'/ProgrammingLanguage' + '/' + ${programmingLanguage} + '/page/' + ${1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
+                    <span th:unless="${currentPage > 1}">First</span>
+                </div>
+                <div class="p-1">
+                    <a th:if="${currentPage > 1}" th:href="@{'/ProgrammingLanguage' + '/' + ${programmingLanguage} + '/page/' + ${currentPage - 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Prev</a>
+                    <span th:unless="${currentPage > 1}">Prev</span>
+                </div>
+                <div class="p-1">
+                    <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                        <a  th:if="${currentPage != i}" th:href="@{'/ProgrammingLanguage' + '/' + ${programmingLanguage} + '/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+                        <span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+                    </span>
+                </div>
+                <div class="p-1">
+                    <a th:if="${currentPage < totalPages}" th:href="@{'/ProgrammingLanguage' + '/' + ${programmingLanguage} + '/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+                    <span th:unless="${currentPage < totalPages}">Next</span>
+                </div>
+                <div class="p-1">
+                    <a th:if="${currentPage < totalPages}" th:href="@{'/ProgrammingLanguage' + '/' + ${programmingLanguage} + '/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+                    <span th:unless="${currentPage < totalPages}">Last</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
