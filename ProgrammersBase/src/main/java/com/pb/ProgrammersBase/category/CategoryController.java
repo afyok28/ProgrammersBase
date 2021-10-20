@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 @Controller
 public class CategoryController {
 
@@ -21,7 +25,7 @@ public class CategoryController {
     }
 
     @GetMapping("/ProgrammingLanguage/{programmingLanguage}")
-    public String getAll(@PathVariable("programmingLanguage") String programmingLanguage,
+    public String getAll(@Size(max = 30,message = "max size 30") @NotNull @PathVariable("programmingLanguage") String programmingLanguage,
                          Model model) {
 
         model.addAttribute("programmingLanguage", programmingLanguage);
@@ -30,7 +34,7 @@ public class CategoryController {
     }
 
     @GetMapping("/ProgrammingLanguage/{programmingLanguage}/new")
-    public String addNew(@PathVariable("programmingLanguage") String programmingLanguage,
+    public String addNew(@Size(max = 30,message = "max size 30") @NotNull @PathVariable("programmingLanguage") String programmingLanguage,
                          Model model) {
 
         model.addAttribute("category", new Category());
@@ -41,29 +45,15 @@ public class CategoryController {
 
     @PostMapping("/ProgrammingLanguage/{programmingLanguage}")
     public String save(@ModelAttribute("category") Category category,
-                       @PathVariable("programmingLanguage") String programmingLanguage) {
+    		@Size(max = 30,message = "max size 30") @NotNull @PathVariable("programmingLanguage") String programmingLanguage) {
 
         categoryService.save(category);
 
         return "redirect:/ProgrammingLanguage/{programmingLanguage}";
     }
 
-    @GetMapping("/ProgrammingLanguage/{programmingLanguage}/edit/{categoryCode}")
-    public String edit(@PathVariable("programmingLanguage") String programmingLanguage,
-                       @PathVariable("categoryCode") Long categoryCode,
-                       Model model) {
-
-        Category category = categoryService.findByCategoryCode(categoryCode);
-
-        model.addAttribute("category", category);
-        model.addAttribute("programmingLanguage", programmingLanguage);
-        model.addAttribute("categoryCode", categoryCode);
-
-        return "edit_category";
-    }
-
     @PostMapping("/{programmingLanguage}/{categoryCode}")
-    public String update(@PathVariable("categoryCode") Long categoryCode,
+    public String update(@Min(value = 0,message = "min value 0") @PathVariable("categoryCode") Long categoryCode,
                          @ModelAttribute("category") Category  category) {
 
         categoryService.update(categoryCode, category.getCategoryName());
@@ -72,7 +62,7 @@ public class CategoryController {
     }
 
     @GetMapping("/ProgrammingLanguage/{programmingLanguage}/{categoryCode}")
-    public String deleteByCategoryCode(@PathVariable("categoryCode") Long categoryCode) {
+    public String deleteByCategoryCode(@Min(value = 0,message = "min value 0") @PathVariable("categoryCode") Long categoryCode) {
 
         Category category = categoryService.findByCategoryCode(categoryCode);
 
@@ -83,7 +73,7 @@ public class CategoryController {
 
     @GetMapping("/ProgrammingLanguage/{programmingLanguage}/page/{pageNo}")
     public String findPaginated(@PathVariable("programmingLanguage") String programmingLanguage,
-                                @PathVariable("pageNo") int pageNum,
+    		 @Min(value = 0,message = "min value 0") @PathVariable("pageNo") int pageNum,
                                 @RequestParam("sortField") String sortField,
                                 @RequestParam("sortDir") String sortDir,
                                 Model model) {

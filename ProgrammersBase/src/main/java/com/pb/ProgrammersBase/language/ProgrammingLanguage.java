@@ -1,10 +1,20 @@
 /* Created by Adam Jost on 09/13/2021 */
 package com.pb.ProgrammersBase.language;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "programming_language")
+@Table(name = "programming_language",indexes = @Index(columnList = "pl_name",unique = true))
 public class ProgrammingLanguage {
 
     @Id
@@ -17,11 +27,14 @@ public class ProgrammingLanguage {
             strategy = GenerationType.SEQUENCE,
             generator = "programming_language_sequence"
     )
+    @Min(value = 0,message = "min value 0")
     @Column(name = "pl_id")
-    Long id;
+    private Long id;
 
-    @Column(name = "pl_name")
-    String name;
+    @NotBlank(message = "cannot be empty")
+    @Size(max = 30,message = "max size 30")
+    @Column(name = "pl_name",length = 30)
+    private String name;
 
     public ProgrammingLanguage() {}
 

@@ -1,6 +1,10 @@
 /* Created by Adam Jost on 09/13/2021 */
 package com.pb.ProgrammersBase.category;
 
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,19 +13,21 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
-import java.util.Optional;
+import com.pb.ProgrammersBase.resource.ResourceService;
 
 @Service
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
-
+    private final ResourceService resourceService;
+    
     @Autowired
-    public CategoryService(CategoryRepository categoryRepository) {
+    public CategoryService(CategoryRepository categoryRepository, ResourceService resourceService) {
+		super();
+		this.categoryRepository = categoryRepository;
+		this.resourceService = resourceService;
+	}
 
-        this.categoryRepository = categoryRepository;
-    }
 /*
     public List<Category> findByProgrammingLanguage(String programmingLanguage) {
 
@@ -65,14 +71,21 @@ public class CategoryService {
         }
     }
 
+    public void deleteAllByProgramingLangueName(final String programingLangueName)
+    {
+    	final Optional<Set<Long>> categoryCodes=categoryRepository.findByrPogramingLangue(programingLangueName);
+    	for (Long categoryCode : categoryCodes.get()) {
+    		resourceService.deleteAllByCategortId(categoryCode);
+		}
+    	categoryRepository.deleteByProgramingLangue(programingLangueName);   	
+    }
     public void deleteById(Long categoryCode) {
 
-        // TODO :: When deleting we must be sure to delete all resources for this category to keep from having "ghost"
-        //  records in resources table.
-        // TODO :: Then remove this TODO notice once completed.
+    	resourceService.deleteAllByCategortId(categoryCode);
         categoryRepository.deleteById(categoryCode);
     }
 
+    
     public Page<Category> findPaginated(int pageNum, int pageSize, String sortField,
                                         String sortDirection, String programmingLanguage) {
 

@@ -147,7 +147,11 @@ public class ResourceService {
         resource.setImage(null);
     }
 
-    public void delete(Long resourceId) {
+    public void deleteAllByCategortId(Long categoryCode)
+    {
+    	resourceRepository.deleteByCategoryCode(categoryCode);
+    }
+    public void deleteById(Long resourceId) {
 
         resourceRepository.deleteById(resourceId);
     }

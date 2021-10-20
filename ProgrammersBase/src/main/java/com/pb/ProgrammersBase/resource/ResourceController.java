@@ -142,7 +142,7 @@ public class ResourceController {
 
         Resource resource = resourceService.getById(resourceId);
 
-        resourceService.delete(resource.getId());
+        resourceService.deleteById(resource.getId());
 
         return "redirect:/ProgrammingLanguage/{programmingLanguage}/{category}/{categoryCode}";
     }

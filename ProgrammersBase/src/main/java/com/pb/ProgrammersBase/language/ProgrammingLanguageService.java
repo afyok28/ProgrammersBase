@@ -1,6 +1,9 @@
 package com.pb.ProgrammersBase.language;
 
-import com.pb.ProgrammersBase.category.Category;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,28 +12,31 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import com.pb.ProgrammersBase.category.CategoryService;
 
 
 @Service
 public class ProgrammingLanguageService {
 
     private final ProgrammingLanguageRepository programmingLanguageRepository;
+    private final CategoryService categoryService;
 
     @Autowired
-    public ProgrammingLanguageService(ProgrammingLanguageRepository programmingLanguageRepository) {
+    public ProgrammingLanguageService(ProgrammingLanguageRepository programmingLanguageRepository,
+			CategoryService categoryService) {
+		super();
+		this.programmingLanguageRepository = programmingLanguageRepository;
+		this.categoryService = categoryService;
+	}
 
-        this.programmingLanguageRepository = programmingLanguageRepository;
-    }
 
-    public List<ProgrammingLanguage> getAll() {
+	public List<ProgrammingLanguage> getAll() {
 
         return programmingLanguageRepository.findAll();
     }
 
-    public Optional<ProgrammingLanguage> findById(Long id) {
+
+	public Optional<ProgrammingLanguage> findById(Long id) {
 
         Optional<ProgrammingLanguage> programmingLanguageOptional
                 = programmingLanguageRepository.findById(id);
@@ -73,7 +79,7 @@ public class ProgrammingLanguageService {
             programmingLanguage.setName(trimmedName);
         }
     }
-
+    @Transactional
     public void deleteById(Long id) {
 
         boolean exists = programmingLanguageRepository.existsById(id);
@@ -81,9 +87,9 @@ public class ProgrammingLanguageService {
         if (!exists) {
             throw new IllegalStateException("Programming Language with Id " + id + " does not exist.");
         }
-
-        // TODO :: Delete all categories and resources of each category for the programming language that is being
-        //  deleted. To keep from having "ghost" records in our tables. Then delete this once completed.
+        
+        final Optional<ProgrammingLanguage> programmingLanguage=programmingLanguageRepository.findById(id);
+        this.categoryService.deleteAllByProgramingLangueName(programmingLanguage.get().getName());
 
         programmingLanguageRepository.deleteById(id);
     }

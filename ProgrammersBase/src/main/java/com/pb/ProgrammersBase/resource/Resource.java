@@ -2,8 +2,12 @@
 package com.pb.ProgrammersBase.resource;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Entity
 @Table(name = "resources")
@@ -19,21 +23,40 @@ public class Resource {
             strategy = GenerationType.SEQUENCE,
             generator = "resource_sequence"
     )
+    @Min(value = 0,message = "min value 0")
     @Column(name = "resource_id")
-    Long id;
+    private Long id;
+    
+    @NotBlank(message = "cannot be empty")
     @Column(name = "resource_title")
-    String title;
+    private String title;
+    
     @Column(name = "resource_desc")
-    String desc;
+    private String desc;
+    
+    @NotBlank(message = "cannot be empty")
     @Column(name = "resource_body")
-    String body;
+    private String body;
+    
+    @NotNull
     @Column(name = "resource_category_code")
-    Long categoryCode;
+    private Long categoryCode;
+    
     @Column(name = "resource_link")
-    String link;
+    private String link;
+    
+    
     @Column(name = "resource_image")
-    byte[] image;
+    private byte[] image;
 
+
+    // reource id deleteted: image table all image delete. not extra code
+    // imagee id deleted: image delete
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn(name = "image_id", foreignKey = @ForeignKey(name = "FK_Resorce_Image" ,value = ConstraintMode.CONSTRAINT))
+    private List<Image> images;
+    
+  
     public Resource() {
     }
 

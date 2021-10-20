@@ -26,7 +26,7 @@ h1 {
   color: white;
   }
  .large-box {
-  min-height: 200px !important;
+  min-height: 194px !important;
  }
 .gradient-border {
   --borderWidth: 3px;
@@ -93,6 +93,9 @@ h1 {
         <div class="col-lg-3" style="padding-left: 0; margin-top: 20px;">
             <a th:href = "@{/new}" class = "btn btn-sm mb-3 btn-primary"> Add Programming Language </a>
         </div>
+        
+    
+
         <div class="row justify-content-between">
             <div th:each="programmingLanguage : ${programmingLanguages}" class="col-6">
                 <div class="card border-dark mb-3 gradient-border box box-shadow">

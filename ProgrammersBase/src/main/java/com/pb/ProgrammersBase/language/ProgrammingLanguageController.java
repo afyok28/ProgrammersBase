@@ -1,13 +1,19 @@
 /* Created by Adam Jost on 09/13/2021 */
 package com.pb.ProgrammersBase.language;
 
+import java.util.List;
+
+import javax.validation.constraints.Min;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ProgrammingLanguageController {
@@ -22,7 +28,7 @@ public class ProgrammingLanguageController {
 
     @GetMapping("/")
     public String getAll(Model model) {
-
+    	
         return findPaginated(1, "name", "asc", model);
     }
 
@@ -43,7 +49,7 @@ public class ProgrammingLanguageController {
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable Long id, Model model) {
+    public String edit(@Min(value = 0,message = "min value 0") @PathVariable Long id, Model model) {
 
         model.addAttribute("programmingLanguage", programmingLanguageService.findById(id).get());
 
@@ -51,8 +57,8 @@ public class ProgrammingLanguageController {
     }
 
     @PostMapping("/{id}")
-    public String update(@PathVariable Long id,
-                         @ModelAttribute("programmingLanguage") ProgrammingLanguage programmingLanguage) {
+    public String update(@Min(value = 0,message = "min value 0") @PathVariable Long id,
+    		 @ModelAttribute("programmingLanguage") ProgrammingLanguage programmingLanguage) {
 
         programmingLanguageService.update(id, programmingLanguage.getName());
 
@@ -60,7 +66,7 @@ public class ProgrammingLanguageController {
     }
 
     @GetMapping("/{id}")
-    public String deleteById(@PathVariable Long id) {
+    public String deleteById(@Min(value = 0,message = "min value 0") @PathVariable Long id) {
 
         programmingLanguageService.deleteById(id);
 
@@ -68,7 +74,7 @@ public class ProgrammingLanguageController {
     }
 
     @GetMapping("/page/{pageNo}")
-    public String findPaginated(@PathVariable("pageNo") int pageNum,
+    public String findPaginated(@Min(value = 0,message = "min value 0") @PathVariable("pageNo") int pageNum,
                                 @RequestParam("sortField") String sortField,
                                 @RequestParam("sortDir") String sortDir,
                                 Model model) {
@@ -78,6 +84,12 @@ public class ProgrammingLanguageController {
         Page<ProgrammingLanguage> page = programmingLanguageService.findPaginated(pageNum, pageSize, sortField, sortDir);
         List<ProgrammingLanguage> programmingLanguageList = page.getContent();
 
+        System.out.println(page.toString());
+        System.out.println(page.getNumber());
+        System.out.println(page.getNumberOfElements());
+        System.out.println(page.getSize());
+        System.out.println(page.getTotalElements());
+        System.out.println(page.getTotalPages());
         model.addAttribute("programmingLanguages", programmingLanguageList);
 
         model.addAttribute("currentPage", pageNum);
